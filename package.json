@@ -1,0 +1,40 @@
+{
+  "name": "stats-for-basketball",
+  "version": "1.0.0",
+  "main": "server/index.js",
+  "scripts": {
+    "start-dev": "npx nodemon server",
+    "start": "node server",
+    "build-dev": "webpack --watch",
+    "build": "npx webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevvarlar/stats-for-basketball.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kevvarlar/stats-for-basketball/issues"
+  },
+  "homepage": "https://github.com/kevvarlar/stats-for-basketball#readme",
+  "description": "",
+  "devDependencies": {
+    "@babel/core": "^7.26.9",
+    "@babel/preset-env": "^7.26.9",
+    "@babel/preset-react": "^7.26.3",
+    "babel-loader": "^9.2.1",
+    "css-loader": "^7.1.2",
+    "html-webpack-plugin": "^5.6.3",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1",
+    "style-loader": "^4.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}
