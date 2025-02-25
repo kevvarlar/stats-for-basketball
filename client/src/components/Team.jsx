@@ -11,7 +11,10 @@ const Team = () => {
       .then(response => {
         setCurrentTeam(response.data)
       })
-      .catch(err => console.error(err));
+      .catch(err => {
+        alert('Sorry an error occured. Please try again later.');
+        navigate('/');
+      });
   }, [])
   return (
   <>

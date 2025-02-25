@@ -7,7 +7,7 @@ const Home = () => {
   useEffect(() => {
     axios.get('/teams')
       .then(response => setTeams(response.data))
-      .catch(err => console.error(err));
+      .catch(err => alert('Sorry an error occured. Please try again later.'));
   }, [])
   return (
     <div id="home">
