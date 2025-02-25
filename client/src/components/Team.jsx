@@ -18,9 +18,11 @@ const Team = () => {
     {currentTeam ?
     <div id="team">
       <h2>{currentTeam.market + ' ' + currentTeam.name}</h2>
+      <h4>Championships: {currentTeam.championships_won}</h4>
       <PlayerTable players={currentTeam.players} />
     </div>
     : <div>Loading...</div>}
+    <br/>
     <button onClick={() => {
       navigate('/')
     }}>Go Back</button>
