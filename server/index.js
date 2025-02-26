@@ -12,6 +12,10 @@ const validTeams = {
 };
 
 app.get('/team', (req, res) => {
+  if (!(validTeams[req.query.team])) {
+    res.status(404).send('Team not found');
+    return;
+  }
   axios.get('https://api.sportradar.com/nba/trial/v8/en/league/teams.json?api_key=' + process.env.API_KEY)
     .then(response => {
       const teams = response.data.teams;
@@ -50,6 +54,16 @@ app.get('/teams', (req, res) => {
       res.status(500).send('An error occurred');
     });
 })
+
+app.post('/:team/favorite', (req, res) => {
+  const team = req.params.team;
+  if (validTeams[team]) {
+    res.status(200).send('Team marked as favorite');
+  } else {
+    res.status(400).send('Invalid team');
+  }
+});
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../client/dist/index.html'));
 });

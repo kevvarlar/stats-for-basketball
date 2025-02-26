@@ -1,13 +1,12 @@
 import React from 'react';
 
-const TeamListItem = ({ team, handleClick }) => {
+const TeamListItem = ({ team, handleClick, handleFavorite }) => {
   const itemStyle = {
     border: '1px solid #000',
     padding: '10px',
     margin: '10px',
     borderRadius: '5px',
     backgroundColor: '#f9f9f9',
-    cursor: 'pointer',
     transition: 'background-color 0.3s ease',
   };
 
@@ -17,12 +16,18 @@ const TeamListItem = ({ team, handleClick }) => {
 
   return (
     <div
-      onClick={() => handleClick(team.alias)}
       style={itemStyle}
+    >
+      <h3
+      onClick={() => handleClick(team.alias)}
+      style={itemStyle, {cursor: 'pointer'}}
       onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = hoverStyle.backgroundColor)}
       onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = itemStyle.backgroundColor)}
-    >
-      <h3 key={team.id}>{team.market + ' ' + team.name}</h3>
+      key={team.id}>{team.market + ' ' + team.name}</h3>
+      <button
+      onClick={() => handleFavorite(team)}
+      style={itemStyle, {cursor: 'pointer'}}
+      >Mark as Favorite</button>
     </div>
   );
 };

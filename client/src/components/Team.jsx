@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import PlayerTable from './PlayerTable.jsx';
 import StatsTables from './StatsTables.jsx';
@@ -16,6 +16,10 @@ const Team = () => {
         setStats(response.data.stats)
       })
       .catch(err => {
+        if (err.response.status === 404) {
+          navigate('/404');
+          return;
+        }
         alert('Sorry an error occured. Please try again later.');
         navigate('/');
       });
@@ -34,9 +38,7 @@ const Team = () => {
     </div>
     : <div>Loading...</div>}
     <br/>
-    <button onClick={() => {
-      navigate('/')
-    }}>Go Back</button>
+    <Link to="/">Go Back</Link>
   </>
 );
 }
