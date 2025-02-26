@@ -22,9 +22,10 @@ module.exports = {
           presets: ["@babel/preset-env", "@babel/preset-react"],
         }
       }},{
-      test: /\.css$/,
-      use: [{ loader: "style-loader" }, { loader: "css-loader"}]
-      }]
-    },
+      test: /\.css$/i,
+      include: path.resolve(__dirname, 'client/src'),
+        use: ['style-loader', 'css-loader', 'postcss-loader'],
+    }]
+  },
   plugins: [new HtmlWebpackPlugin({ template: path.join(__dirname, './public/index.html')})],
 }

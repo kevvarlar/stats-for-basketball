@@ -30,7 +30,6 @@ const Team = () => {
     <div id="team">
       <TeamHeading team={roster} />
       <br/>
-      <br/>
       <PlayerTable players={roster.players} />
       <br/>
       <br/>

@@ -4,6 +4,7 @@ const app = express();
 const path = require('path');
 const axios = require('axios');
 const port = process.env.PORT || 3000;
+const controller = require('./controller.js');
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '/../client/dist')));
 
@@ -23,23 +24,29 @@ app.get('/team', (req, res) => {
       axios.get('https://api.sportradar.com/nba/trial/v8/en/teams/'+ team.id +'/profile.json?api_key=' + process.env.API_KEY)
         .then(response => {
           const roster = response.data;
-          axios.get('https://api.sportradar.com/nba/trial/v8/en/seasons/2024/REG/teams/'+ team.id +'/statistics.json?api_key=' + process.env.API_KEY)
+          controller.findFavoriteTeam()
+            .then((favorite) => {
+              if (favorite.length > 0 && favorite[0].team === team.alias) {
+                roster.favorite = true;
+              }
+              axios.get('https://api.sportradar.com/nba/trial/v8/en/seasons/2024/REG/teams/'+ team.id +'/statistics.json?api_key=' + process.env.API_KEY)
             .then(response => {
               const stats = response.data;
               res.status(200).send({roster, stats});
             })
             .catch(err => {
-              console.error(err);
+              res.status(500).send('An error occurred');
+            });
+            })
+            .catch(err => {
               res.status(500).send('An error occurred');
             });
         })
         .catch(err => {
-          console.error(err);
           res.status(500).send('An error occurred');
         });
     })
     .catch(err => {
-      console.error(err);
       res.status(500).send('An error occurred');
     });
 });
@@ -47,10 +54,19 @@ app.get('/team', (req, res) => {
 app.get('/teams', (req, res) => {
   axios.get('https://api.sportradar.com/nba/trial/v8/en/league/teams.json?api_key=' + process.env.API_KEY)
     .then(response => {
-      res.status(200).send(response.data.teams.filter(team => validTeams[team.alias]));
+      controller.findFavoriteTeam()
+        .then((result) => {
+          if (result.length > 0) {
+            response.data.teams.forEach(team => {
+              if (team.alias === result[0].team) {
+                team.favorite = true;
+              }
+            });
+          }
+          res.status(200).send(response.data.teams.filter(team => validTeams[team.alias]));
+        })
     })
     .catch(err => {
-      console.error(err);
       res.status(500).send('An error occurred');
     });
 })
@@ -58,11 +74,41 @@ app.get('/teams', (req, res) => {
 app.post('/:team/favorite', (req, res) => {
   const team = req.params.team;
   if (validTeams[team]) {
-    res.status(200).send('Team marked as favorite');
+    controller.createFavoriteTeam(team)
+      .then((result) => {
+        if (result.modifiedCount > 0) {
+          res.status(204).send('Team updated as favorite');
+        } else {
+          res.status(201).send('Team marked as favorite');
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        res.status(500).send('An error occurred');
+      });
   } else {
-    res.status(400).send('Invalid team');
+    res.status(404).send('Invalid team');
   }
 });
+
+app.get('/:team/favorite', (req, res) => {
+  if (!(validTeams[req.params.team])) {
+    res.status(404).send('Team not found');
+    return;
+  }
+  controller.findFavoriteTeam()
+    .then((result) => {
+      if (result.length === 0) {
+        res.status(404).send('No favorite team found');
+      } else {
+        res.status(200).send(result.team);
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send('An error occurred');
+    });
+})
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../client/dist/index.html'));
