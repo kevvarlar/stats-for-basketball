@@ -11,11 +11,9 @@ const TeamList = ({ teams }) => {
   return (
     <div id="team-list">
       <h2>NBA Teams</h2>
-      <ul>
         {teams.map(team => (
           <TeamListItem key={team.id} team={team} handleClick={handleClick} />
         ))}
-      </ul>
     </div>
   );
 };

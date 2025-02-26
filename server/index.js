@@ -6,6 +6,7 @@ const axios = require('axios');
 const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '/../client/dist')));
+
 const validTeams = {
   'ATL': 1, 'BKN': 1, 'BOS': 1, 'CHA': 1, 'CHI': 1, 'CLE': 1, 'DAL': 1, 'DEN': 1, 'DET': 1, 'GSW': 1, 'HOU': 1, 'IND': 1, 'LAC': 1, 'LAL': 1, 'MEM': 1, 'MIA': 1, 'MIL': 1, 'MIN': 1, 'NOP': 1, 'NYK': 1, 'OKC': 1, 'ORL': 1, 'PHI': 1, 'PHX': 1, 'POR': 1, 'SAC': 1, 'SAS': 1, 'TOR': 1, 'UTA': 1, 'WAS': 1
 };
@@ -17,7 +18,16 @@ app.get('/team', (req, res) => {
       const team = teams.find(team => team.alias === req.query.team);
       axios.get('https://api.sportradar.com/nba/trial/v8/en/teams/'+ team.id +'/profile.json?api_key=' + process.env.API_KEY)
         .then(response => {
-          res.status(200).send(response.data);
+          const roster = response.data;
+          axios.get('https://api.sportradar.com/nba/trial/v8/en/seasons/2024/REG/teams/'+ team.id +'/statistics.json?api_key=' + process.env.API_KEY)
+            .then(response => {
+              const stats = response.data;
+              res.status(200).send({roster, stats});
+            })
+            .catch(err => {
+              console.error(err);
+              res.status(500).send('An error occurred');
+            });
         })
         .catch(err => {
           console.error(err);

@@ -52,18 +52,18 @@ import Table from './utils/Table';
 
 const PlayerTable = ({ players }) => {
   const columns = [
-    'Number', 'Name', 'Position', 'Height', 'Weight', 'Birth Date', 'Birth Place', 'Experience', 'College'
+    'NO', 'Name', 'Pos', 'HT', 'WT', 'DOB', 'POB', 'Exp', 'College'
   ];
 
   const data = players.map(player => ({
-    Number: player.jersey_number,
+    NO: player.jersey_number,
     Name: player.full_name,
-    Position: player.primary_position,
-    Height: player.height,
-    Weight: player.weight,
-    'Birth Date': player.birthdate,
-    'Birth Place': player.birth_place.split(', ').at(-1),
-    Experience: player.experience,
+    Pos: player.primary_position,
+    HT: player.height,
+    WT: player.weight,
+    DOB: player.birthdate,
+    POB: player.birth_place.split(', ').at(-1),
+    Exp: player.experience,
     College: player.college
   }));
 

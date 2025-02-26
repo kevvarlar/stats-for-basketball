@@ -3,8 +3,8 @@ import React from 'react';
 const Table = ({ columns, data }) => {
   const tableStyle = {
     borderCollapse: 'collapse',
-    height: '10%',
-    width: '100%'
+    height: '0.35em',
+    width: 'auto'
   };
 
   const thTdStyle = {

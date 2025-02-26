@@ -2,14 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PlayerTable from './PlayerTable.jsx';
+import StatsTables from './StatsTables.jsx';
+import TeamHeading from './TeamHeading.jsx';
 const Team = () => {
   const navigate = useNavigate();
   const { team } = useParams();
-  const [currentTeam, setCurrentTeam] = useState(null);
+  const [roster, setRoster] = useState(null);
+  const [stats, setStats] = useState(null);
   useEffect(() => {
     axios.get('/team?team=' + team)
       .then(response => {
-        setCurrentTeam(response.data)
+        setRoster(response.data.roster)
+        setStats(response.data.stats)
       })
       .catch(err => {
         alert('Sorry an error occured. Please try again later.');
@@ -18,11 +22,15 @@ const Team = () => {
   }, [])
   return (
   <>
-    {currentTeam ?
+    {roster ?
     <div id="team">
-      <h2>{currentTeam.market + ' ' + currentTeam.name}</h2>
-      <h4>Championships: {currentTeam.championships_won}</h4>
-      <PlayerTable players={currentTeam.players} />
+      <TeamHeading team={roster} />
+      <br/>
+      <br/>
+      <PlayerTable players={roster.players} />
+      <br/>
+      <br/>
+      <StatsTables stats={stats} />
     </div>
     : <div>Loading...</div>}
     <br/>
