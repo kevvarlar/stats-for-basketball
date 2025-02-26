@@ -6,22 +6,19 @@ import TeamAverageStatsTables from './TeamAverageStatsTable.jsx';
 
 const StatsTables = ({ stats }) => {
   return (
-    <>
-      <h3>Player Stats</h3>
-      <h4>Total Stats</h4>
+    <div id="stats">
+      <h3 className="text-2xl mb-4 ml-4">Player Stats</h3>
+      <h4 className="text-lg mb-2 ml-4">Total Stats</h4>
       <PlayerTotalStatsTables playerStats={stats.players}/>
-      <br/>
-      <h4>Average Stats</h4>
+      <h4 className="text-lg mt-4 mb-2 ml-4">Average Stats</h4>
       <PlayerAverageStatsTables playerStats={stats.players}/>
-      <br/>
-      <br/>
-      <h3>Team Stats</h3>
-      <h4>Total Stats</h4>
+      <div className="divider my-4"></div>
+      <h3 className="text-2xl mb-4 ml-4">Team Stats</h3>
+      <h4 className="text-lg mb-2 ml-4">Total Stats</h4>
       <TeamTotalStatsTables teamStats={stats.own_record.total} opponentStats={stats.opponents.total}/>
-      <br/>
-      <h4>Average Stats</h4>
+      <h4 className="text-lg mt-4 mb-2 ml-4">Average Stats</h4>
       <TeamAverageStatsTables teamStats={stats.own_record.average} opponentStats={stats.opponents.average}/>
-    </>
+    </div>
   );
 };
 

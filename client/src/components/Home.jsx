@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import TeamList from './TeamList.jsx';
 
 const Home = () => {
   const [teams, setTeams] = useState([]);
+  const navigate = useNavigate();
+
   const loadTeams = () => {
     axios.get('/teams')
       .then(response => setTeams(response.data))
-      .catch(err => alert('Sorry an error occured. Please try again later.'));
+      .catch(err => navigate('/404'));
   }
-  useEffect(loadTeams, [])
+
+  useEffect(loadTeams, []);
+
   return (
     <div id="home">
-      <h1 className="text-4xl text-blue-700">Welcome to Stats for Basketball</h1>
-      <div className="divider"></div>
       <TeamList teams={teams} loadTeams={loadTeams}/>
     </div>
   );

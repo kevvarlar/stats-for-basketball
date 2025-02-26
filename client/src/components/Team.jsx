@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PlayerTable from './PlayerTable.jsx';
 import StatsTables from './StatsTables.jsx';
@@ -21,7 +21,7 @@ const Team = () => {
           return;
         }
         alert('Sorry an error occured. Please try again later.');
-        navigate('/');
+        navigate('/error');
       });
   }, [])
   return (
@@ -29,15 +29,12 @@ const Team = () => {
     {roster ?
     <div id="team">
       <TeamHeading team={roster} />
-      <br/>
+      <div className="divider my-4"></div>
       <PlayerTable players={roster.players} />
-      <br/>
-      <br/>
+      <div className="divider my-4"></div>
       <StatsTables stats={stats} />
     </div>
     : <div>Loading...</div>}
-    <br/>
-    <Link to="/">Go Back</Link>
   </>
 );
 }

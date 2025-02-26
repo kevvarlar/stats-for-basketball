@@ -69,7 +69,7 @@ const PlayerTable = ({ players }) => {
 
   return (
     <div>
-      <h3>Roster</h3>
+      <h3 className="text-2xl mb-4 ml-4">Roster</h3>
       <Table columns={columns} data={data} />
     </div>
   );
