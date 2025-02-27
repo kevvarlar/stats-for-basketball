@@ -10,7 +10,7 @@ const Home = () => {
   const loadTeams = () => {
     axios.get('/teams')
       .then(response => setTeams(response.data))
-      .catch(err => navigate('/404'));
+      .catch(err => navigate('/error'));
   }
 
   useEffect(loadTeams, []);
