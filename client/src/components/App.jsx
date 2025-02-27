@@ -4,12 +4,11 @@ import Home from './Home/Home.jsx';
 import Team from './Team/Team.jsx';
 import Page404 from './404/Page404.jsx';
 import ErrorPage from './Error/ErrorPage.jsx';
+import NavBar from './NavBar.jsx';
 const App = () => {
   return (
       <div id="app">
-        <div className="navbar bg-base-100 shadow-sm">
-          <a href="/" className="btn btn-ghost text-3xl">Stats for Basketball</a>
-        </div>
+        <NavBar/>
         <div className="divider"></div>
         <Routes>
           <Route path="/" element={<Home />} />
