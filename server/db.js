@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/statsForBasketball');
+require('dotenv').config();
+mongoose.connect(process.env.DB_URL);
 
 const db = mongoose.connection;
 
