@@ -1,5 +1,5 @@
 import React from 'react';
-import Table from './utils/Table';
+import Table from '../utils/Table';
 
 const PlayerTotalStatsTable = ({ playerStats }) => {
   const columns = ['Player', 'Pos', 'GP', 'GS', 'Min', 'PTS', 'FGM', 'FGA', 'FG%', '2PM', '2PA', '2P%', '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'OR', 'DR', 'TR', 'AST', 'STL', 'BLK', 'TO', 'PF'];

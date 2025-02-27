@@ -1,6 +1,5 @@
-// filepath: /home/kevinvar/stats-for-basketball/client/src/components/PlayerAverageStatsTable.jsx
 import React from 'react';
-import Table from './utils/Table';
+import Table from '../utils/Table';
 
 const PlayerAverageStatsTable = ({ playerStats }) => {
 

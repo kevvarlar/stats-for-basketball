@@ -1,9 +1,9 @@
 import React from 'react';
 import {Routes, Route } from 'react-router-dom';
-import Home from './Home.jsx';
-import Team from './Team.jsx';
-import Page404 from './Page404.jsx';
-import ErrorPage from './ErrorPage.jsx';
+import Home from './Home/Home.jsx';
+import Team from './Team/Team.jsx';
+import Page404 from './404/Page404.jsx';
+import ErrorPage from './Error/ErrorPage.jsx';
 const App = () => {
   return (
       <div id="app">

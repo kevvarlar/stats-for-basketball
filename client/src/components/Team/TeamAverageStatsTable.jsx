@@ -1,6 +1,5 @@
-// filepath: /home/kevinvar/stats-for-basketball/client/src/components/TeamAverageStatsTable.jsx
 import React from 'react';
-import Table from './utils/Table';
+import Table from '../utils/Table';
 
 const TeamAverageStatsTable = ({ teamStats, opponentStats }) => {
   const columns = ['Team','Min', 'PTS', 'FGM', 'FGA', '2PM', '2PA', '3PM', '3PA', 'FTM', 'FTA', 'OR', 'DR', 'TR', 'AST', 'STL', 'BLK', 'TO', 'PF'];
