@@ -25,6 +25,7 @@ npm install
 ```.env
 PORT=[YOUR_PORT]
 API_KEY=[NBA_API_KEY_FROM_SPORT_RADAR]
+DB_URL=mongodb://[mongo_db_ip_address]:27017/statsForBasketball
 ```
 ## Usage
 
