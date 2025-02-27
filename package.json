@@ -4,7 +4,7 @@
   "main": "server/index.js",
   "scripts": {
     "start-dev": "npx nodemon server",
-    "start": "node server",
+    "start": "npx webpack && node server",
     "build-dev": "webpack --watch",
     "build": "npx webpack"
   },
