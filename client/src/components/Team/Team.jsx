@@ -10,7 +10,7 @@ const Team = () => {
   const [roster, setRoster] = useState(null);
   const [stats, setStats] = useState(null);
   useEffect(() => {
-    axios.get('/team?team=' + team)
+    axios.get('/api/team?team=' + team)
       .then(response => {
         setRoster(response.data.roster)
         setStats(response.data.stats)

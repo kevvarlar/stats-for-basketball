@@ -8,7 +8,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const loadTeams = () => {
-    axios.get('/teams')
+    axios.get('/api/teams')
       .then(response => setTeams(response.data))
       .catch(err => navigate('/error'));
   }

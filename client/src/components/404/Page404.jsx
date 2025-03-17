@@ -8,7 +8,7 @@ const Page404 = () => {
         <h1 className="text-6xl font-bold text-red-500">404</h1>
         <p className="text-2xl mt-4">Page not Found</p>
         <p className="mt-2">The page you were looking for does not exist</p>
-        <a href="/" className="btn btn-error mt-6">Go Home</a>
+        <Link href="/" className="btn btn-error mt-6">Go Home</Link>
       </div>
     </div>
   );

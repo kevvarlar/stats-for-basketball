@@ -4,3 +4,4 @@ bundle.js
 bundle.js.*
 .env
 client/dist
+server/dist

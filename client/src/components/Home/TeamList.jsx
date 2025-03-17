@@ -5,11 +5,11 @@ import axios from 'axios';
 const TeamList = ({ teams, loadTeams }) => {
   const navigate = useNavigate();
   const handleClick = (alias) => {
-    navigate(`/${alias}`);
+    navigate(`/api/${alias}`);
   };
 
   const handleFavorite = (team) => {
-    axios.post(`/${team.alias}/favorite`)
+    axios.post(`/api/${team.alias}/favorite`)
       .then(response => {
         if (response.status === 204) {
           alert(`${team.name} is now your new favorite team!`);

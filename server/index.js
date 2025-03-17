@@ -12,7 +12,7 @@ const validTeams = {
   'ATL': 1, 'BKN': 1, 'BOS': 1, 'CHA': 1, 'CHI': 1, 'CLE': 1, 'DAL': 1, 'DEN': 1, 'DET': 1, 'GSW': 1, 'HOU': 1, 'IND': 1, 'LAC': 1, 'LAL': 1, 'MEM': 1, 'MIA': 1, 'MIL': 1, 'MIN': 1, 'NOP': 1, 'NYK': 1, 'OKC': 1, 'ORL': 1, 'PHI': 1, 'PHX': 1, 'POR': 1, 'SAC': 1, 'SAS': 1, 'TOR': 1, 'UTA': 1, 'WAS': 1
 };
 
-app.get('/team', (req, res) => {
+app.get('/api/team', (req, res) => {
   if (!(validTeams[req.query.team])) {
     res.status(404).send('Team not found');
     return;
@@ -51,7 +51,7 @@ app.get('/team', (req, res) => {
     });
 });
 
-app.get('/teams', (req, res) => {
+app.get('/api/teams', (req, res) => {
   axios.get('https://api.sportradar.com/nba/trial/v8/en/league/teams.json?api_key=' + process.env.API_KEY)
     .then(response => {
       controller.findFavoriteTeam()
@@ -71,7 +71,7 @@ app.get('/teams', (req, res) => {
     });
 })
 
-app.post('/:team/favorite', (req, res) => {
+app.post('/api/:team/favorite', (req, res) => {
   const team = req.params.team;
   if (validTeams[team]) {
     controller.createFavoriteTeam(team)
@@ -91,7 +91,7 @@ app.post('/:team/favorite', (req, res) => {
   }
 });
 
-app.get('/:team/favorite', (req, res) => {
+app.get('/api/:team/favorite', (req, res) => {
   if (!(validTeams[req.params.team])) {
     res.status(404).send('Team not found');
     return;
