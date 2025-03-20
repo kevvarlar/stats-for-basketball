@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import PlayerTable from './PlayerTable.jsx';
 import StatsTables from './StatsTables.jsx';
@@ -9,8 +9,10 @@ const Team = () => {
   const { team } = useParams();
   const [roster, setRoster] = useState(null);
   const [stats, setStats] = useState(null);
+  let location = useLocation();
+  const id = location.state;
   useEffect(() => {
-    axios.get('/api/team?team=' + team)
+    axios.get(`/api/team?team=${team}&id=${id.id}`)
       .then(response => {
         setRoster(response.data.roster)
         setStats(response.data.stats)

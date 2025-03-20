@@ -4,8 +4,8 @@ import TeamListItem from './TeamListItem.jsx';
 import axios from 'axios';
 const TeamList = ({ teams, loadTeams }) => {
   const navigate = useNavigate();
-  const handleClick = (alias) => {
-    navigate(`/api/${alias}`);
+  const handleClick = (team) => {
+    navigate(`/${team.alias}`, { replace: true, state: { id: team.id } });
   };
 
   const handleFavorite = (team) => {
