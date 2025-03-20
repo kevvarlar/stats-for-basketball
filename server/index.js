@@ -30,14 +30,14 @@ app.get('/api/team', (req, res) => {
                 roster.favorite = true;
               }
               axios.get('https://api.sportradar.com/nba/trial/v8/en/seasons/2024/REG/teams/'+ team.id +'/statistics.json?api_key=' + process.env.API_KEY)
-            .then(response => {
-              const stats = response.data;
-              res.status(200).send({roster, stats});
-            })
-            .catch(err => {
-              res.status(500).send('An error occurred');
-            });
-            })
+                .then(response => {
+                  const stats = response.data;
+                  res.status(200).send({roster, stats});
+                })
+                .catch(err => {
+                  res.status(500).send('An error occurred');
+                });
+                })
             .catch(err => {
               res.status(500).send('An error occurred');
             });

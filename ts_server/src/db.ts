@@ -10,7 +10,12 @@ db.once('open', () => console.log('Connected to MongoDB'));
 
 const Schema = mongoose.Schema;
 
-const FavoriteSchema = new Schema({
+interface IFavorite {
+  id: number,
+  team: string
+}
+
+const FavoriteSchema = new Schema<IFavorite>({
   id: {
     type: Number,
     required: true
@@ -21,6 +26,6 @@ const FavoriteSchema = new Schema({
   },
 });
 
-const Favorite = mongoose.model('Favorite', FavoriteSchema);
+const Favorite = mongoose.model<IFavorite>('Favorite', FavoriteSchema);
 
-export { Favorite };
+export default Favorite;

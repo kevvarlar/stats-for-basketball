@@ -2,22 +2,20 @@ import express, {Express, Request, Response} from 'express';
 import 'dotenv/config';
 import path from 'path';
 import axios from 'axios';
+import controller from './controller.ts';
 const app: Express = express();
 const port = process.env.port || 3000;
 
-type OnlyNumbers = {
-  [key: string]: number | undefined;
-};
-
-const validTeams: OnlyNumbers = {
-  'ATL': 1, 'BKN': 1, 'BOS': 1, 'CHA': 1, 'CHI': 1, 'CLE': 1, 'DAL': 1, 'DEN': 1, 'DET': 1, 'GSW': 1, 'HOU': 1, 'IND': 1, 'LAC': 1, 'LAL': 1, 'MEM': 1, 'MIA': 1, 'MIL': 1, 'MIN': 1, 'NOP': 1, 'NYK': 1, 'OKC': 1, 'ORL': 1, 'PHI': 1, 'PHX': 1, 'POR': 1, 'SAC': 1, 'SAS': 1, 'TOR': 1, 'UTA': 1, 'WAS': 1
-};
+const validTeams: Set<string> = new Set([
+  'ATL', 'BKN', 'BOS', 'CHA', 'CHI', 'CLE', 'DAL', 'DEN', 'DET', 'GSW', 'HOU', 'IND', 'LAC', 'LAL', 'MEM', 'MIA', 'MIL', 'MIN', 'NOP', 'NYK', 'OKC', 'ORL', 'PHI', 'PHX', 'POR', 'SAC', 'SAS', 'TOR', 'UTA', 'WAS'
+]);
 
 interface Teams {
   id: string,
   name: string,
   alias: string,
-  market: string
+  market: string,
+  favorite?: boolean
 }
 
 interface TeamsData {
@@ -30,15 +28,20 @@ app.get('/api', (req: Request, res: Response) => {
   res.send('Hello World');
 });
 
-app.get('/api/teams', (req: Request, res: Response) => {
-  axios.get<TeamsData>('https://api.sportradar.com/nba/trial/v8/en/league/teams.json?api_key=' + process.env.API_KEY)
-    .then(( { data }: Axios.AxiosXHR<TeamsData> ) => {
-      let teams = data.teams.filter((team) => validTeams[team.alias]);
-      res.send(teams);
-    })
-    .catch(() => {
-      res.status(500).send('Sorry there was a problem with the server')
-    })
+app.get('/api/teams', async (req: Request, res: Response) => {
+  try {
+    const { data }: Axios.AxiosXHR<TeamsData> = await axios.get<TeamsData>('https://api.sportradar.com/nba/trial/v8/en/league/teams.json?api_key=' + process.env.API_KEY);
+    const favorite = await controller.findFavoriteTeam();
+    res.send(data.teams.filter((team) => {
+      if (favorite.id > -1 && team.alias === favorite.team) {
+        team.favorite = true;
+      }
+      return validTeams.has(team.alias);
+    }));
+  }
+  catch {
+    res.status(500).send('Sorry there was a problem with the server');
+  }
 });
 
 app.get('*', (req: Request, res: Response) => {

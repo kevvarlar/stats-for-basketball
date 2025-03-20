@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "Node16",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
     "moduleResolution": "node16",
     "target": "es6",
     "outDir": "./ts_server/dist",
