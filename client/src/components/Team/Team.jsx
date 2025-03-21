@@ -12,6 +12,10 @@ const Team = () => {
   let location = useLocation();
   const id = location.state;
   useEffect(() => {
+    if (!id) {
+      navigate('/404');
+      return;
+    }
     axios.get(`/api/team?team=${team}&id=${id.id}`)
       .then(response => {
         setRoster(response.data.roster)

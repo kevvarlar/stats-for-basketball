@@ -22,6 +22,10 @@ interface TeamsData {
   teams: Teams[]
 }
 
+interface Roster {
+  favorite: boolean
+}
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '/../../client/dist')));
 
@@ -29,9 +33,31 @@ app.get('/api', (req: Request, res: Response) => {
   res.send('Hello World');
 });
 
+//Gets a single team
 app.get('/api/team', async (req: Request, res: Response) => {
-  const { team, id } = req.query;
+  let { team, id } = req.query;
+  team = String(team);
+  id = String(id);
+  if (validTeams.has(team)) {
+    try {
+      const responseRoster: Axios.AxiosXHR<Roster> = await axios.get<Roster>('https://api.sportradar.com/nba/trial/v8/en/teams/' + id + '/profile.json?api_key=' + process.env.API_KEY);
+      const responseStats = await axios.get('https://api.sportradar.com/nba/trial/v8/en/seasons/2024/REG/teams/' + id + '/statistics.json?api_key=' + process.env.API_KEY);
+      const roster: Roster = responseRoster.data;
+      const stats = responseStats.data;
+      const favorite = await controller.findFavoriteTeam();
+      if (favorite.id > -1 && team === favorite.team) {
+        roster.favorite = true;
+      }
+      res.send({ roster, stats })
+    }
+    catch {
+      res.status(500).send('Sorry there was a problem with the server');
+    }
+  } else {
+    res.sendStatus(404);
+  }
 });
+
 //Gets all the NBA Teams
 app.get('/api/teams', async (req: Request, res: Response) => {
   try {
@@ -66,7 +92,7 @@ app.post('/api/:team/favorite', async (req: Request, res: Response) => {
 });
 
 app.get('*', (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, '/../../client/dist'));
+  res.sendFile(path.join(__dirname, '/../../client/dist/index.html'));
 });
 
 app.listen(port, () => {
